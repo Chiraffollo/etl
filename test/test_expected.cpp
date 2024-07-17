@@ -678,5 +678,56 @@ namespace
       CHECK_FALSE(test_unexp == test_unexp_unequal);
       CHECK_TRUE(test_unexp != test_unexp_unequal);
     }
+
+    //*************************************************************************
+    TEST(test_expected_swap)
+    {
+      etl::expected<int, int> test_exp_1 = 1;
+      etl::expected<int, int> test_exp_2 = 2;
+      etl::expected<int, int> test_unexp_1 = etl::unexpected<int>(1);
+      etl::expected<int, int> test_unexp_2 = etl::unexpected<int>(2);
+
+      etl::expected<int, int> test_exp_1_swap = test_exp_1;
+      etl::expected<int, int> test_exp_2_swap = test_exp_2;
+
+      swap(test_exp_1_swap, test_exp_2_swap);
+
+      CHECK_EQUAL(test_exp_1_swap, test_exp_2);
+      CHECK_EQUAL(test_exp_2_swap, test_exp_1);
+
+      etl::expected<int, int> test_unexp_1_swap = test_unexp_1;
+      etl::expected<int, int> test_unexp_2_swap = test_unexp_2;
+
+      swap(test_unexp_1_swap, test_unexp_2_swap);
+
+      CHECK_EQUAL(test_unexp_1_swap, test_unexp_2);
+      CHECK_EQUAL(test_unexp_2_swap, test_unexp_1);
+
+      etl::expected<int, int> test_exp_swap = test_exp_1;
+      etl::expected<int, int> test_unexp_swap = test_unexp_1;
+
+      swap(test_exp_swap, test_unexp_swap);
+
+      CHECK_EQUAL(test_exp_swap, test_unexp_1);
+      CHECK_EQUAL(test_unexp_swap, test_exp_1);
+    }
+
+    //*************************************************************************
+    TEST(test_unexpected_swap)
+    {
+      etl::unexpected<int> test_unexp_1 = etl::unexpected<int>(1);
+      etl::unexpected<int> test_unexp_2 = etl::unexpected<int>(2);
+
+      etl::unexpected<int> test_unexp_1_swap = test_unexp_1;
+      etl::unexpected<int> test_unexp_2_swap = test_unexp_2;
+
+      swap(test_unexp_1_swap, test_unexp_2_swap);
+
+      CHECK_TRUE(test_unexp_1_swap == test_unexp_2);
+      CHECK_TRUE(test_unexp_2_swap == test_unexp_1);
+
+      CHECK_EQUAL(test_unexp_1_swap, test_unexp_2);
+      CHECK_EQUAL(test_unexp_2_swap, test_unexp_1);
+    }
   };
 }
